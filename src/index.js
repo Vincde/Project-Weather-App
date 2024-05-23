@@ -22,6 +22,7 @@ import "./style.css";
 
   while (i <= 9) {
     const paragraph = document.createElement("p");
+    paragraph.style.visibility = "hidden";
     containerOfResults.appendChild(paragraph);
     i++;
   }
@@ -55,10 +56,13 @@ function workDataAndPrintIt(data) {
 function printDataOnScreen(weather, rest) {
   let counter = 1;
   const paragraphs = document.querySelectorAll("div > p");
+
+  paragraphs[0].style.visibility = "visible";
   paragraphs[0].textContent = `Weather: ${weather}`;
 
   for (let key in rest) {
     paragraphs[counter].textContent = `${key} : ${rest[key]}`;
+    paragraphs[counter].style.visibility = "visible";
     counter++;
   }
 }
