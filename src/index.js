@@ -17,5 +17,15 @@ async function getAPI(name) {
 
   const data = await weather.json();
 
-  console.log(data.location);
+  workDataAndPrintIt(data);
+}
+
+function workDataAndPrintIt(data) {
+  let rest;
+
+  ({ ...rest } = data.location);
+
+  for (let key in rest) {
+    console.log(`${key} : ${rest[key]}`);
+  }
 }
