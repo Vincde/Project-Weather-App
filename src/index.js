@@ -35,6 +35,7 @@ async function getAPI(name) {
     createBar();
 
     populateFirstBar();
+    await sleep(2000);
 
     const weather = await fetch(
       `https://api.weatherapi.com/v1/current.json?key=ee0f8ecf676b472ebc1102115242005&q=${name}`,
@@ -42,13 +43,16 @@ async function getAPI(name) {
     );
 
     populateSecondBar();
+    await sleep(2000);
 
     const data = await weather.json();
 
     populateThirdBar();
+    await sleep(2000);
     populateFourthBar();
+    await sleep(2000);
 
-    await workDataAndPrintIt(data);
+    workDataAndPrintIt(data);
 
     clearBar();
   } catch (err) {
@@ -150,3 +154,5 @@ function clearBar() {
   loadingContainer.parentElement.removeChild(loadingContainer);
   span.parentElement.removeChild(span);
 }
+
+const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
