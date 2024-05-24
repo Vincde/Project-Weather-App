@@ -32,14 +32,25 @@ import "./style.css";
 
 async function getAPI(name) {
   try {
+    createBar();
+
+    populateFirstBar();
+
     const weather = await fetch(
       `https://api.weatherapi.com/v1/current.json?key=ee0f8ecf676b472ebc1102115242005&q=${name}`,
       { mode: "cors" }
     );
 
+    populateSecondBar();
+
     const data = await weather.json();
 
-    workDataAndPrintIt(data);
+    populateThirdBar();
+    populateFourthBar();
+
+    await workDataAndPrintIt(data);
+
+    clearBar();
   } catch (err) {
     console.log(err);
   }
@@ -68,9 +79,74 @@ function printDataOnScreen(weather, rest) {
 }
 
 function clearPara() {
-  const paras = document.querySelectorAll("body > p");
+  const paras = document.querySelectorAll("body div:last-of-type > p");
 
   for (let elem of paras) {
     elem.textContent = "";
   }
+}
+
+function createBar() {
+  const container = document.createElement("div");
+  const firstP = document.querySelector("body div > p:first-of-type");
+  const divPara = document.querySelector("body div:last-of-type");
+  const loadingText = document.createElement("span");
+
+  container.setAttribute("class", "loading");
+
+  for (let i = 0; i < 4; i++) {
+    const subContainer = document.createElement("div");
+    subContainer.setAttribute("class", "subContainer");
+    container.appendChild(subContainer);
+  }
+  firstP.parentElement.parentNode.insertBefore(container, divPara);
+  firstP.parentElement.parentNode.insertBefore(loadingText, divPara);
+}
+
+function populateFirstBar() {
+  const loadingText = document.querySelector("span");
+  const firstSubContainer = document.querySelector(
+    ".loading > div:first-of-type"
+  );
+
+  firstSubContainer.style.background = "green";
+  loadingText.textContent = "Starting download!";
+}
+
+function populateSecondBar() {
+  const loadingText = document.querySelector("span");
+  const secondSubContainer = document.querySelector(
+    ".loading > div:nth-child(2)"
+  );
+
+  secondSubContainer.style.background = "green";
+  loadingText.textContent = "finished fetching data";
+}
+
+function populateThirdBar() {
+  const loadingText = document.querySelector("span");
+  const thirdSubContainer = document.querySelector(
+    ".loading > div:nth-child(3)"
+  );
+
+  thirdSubContainer.style.background = "green";
+  loadingText.textContent = "finished transforming data into readable objects";
+}
+
+function populateFourthBar() {
+  const loadingText = document.querySelector("span");
+  const fourthSubContainer = document.querySelector(
+    ".loading > div:last-of-type"
+  );
+
+  fourthSubContainer.style.background = "green";
+  loadingText.textContent = "printingData...";
+}
+
+function clearBar() {
+  const loadingContainer = document.querySelector(".loading");
+  const span = document.querySelector("span");
+
+  loadingContainer.parentElement.removeChild(loadingContainer);
+  span.parentElement.removeChild(span);
 }
